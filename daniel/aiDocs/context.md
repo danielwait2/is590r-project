@@ -8,11 +8,11 @@
 - **MVP:** [aiDocs/mvp.md](mvp.md) - Chrome extension demo spec
 - **Architecture:** [aiDocs/architecture.md](architecture.md) - Technical architecture (MVP, V1, V2+)
 - **Market Research:** [ai/guides/quality-time-app-market-research.md](../ai/guides/quality-time-app-market-research.md)
-- [Changelog](./ai/changelog.md) - changelog with brief notes about each change to the coadbase
+- **Changelog:** [ai/changelog.md](../ai/changelog.md) - Brief notes about each change to the codebase
 
 ## Current Focus
 
-**Phase:** MVP Development - Chrome Extension Demo
+**Phase:** Phase 1 - MVP Chrome Extension Demo (Ready to Start)
 **Timeline:** 4-5 days
 **Goal:** Functional demo showing calendar integration + suggestions + event creation
 
@@ -30,3 +30,7 @@
 - Shows 2 curated suggestions
 - Successfully adds event back to Google Calendar
 - Demo completes in <60 seconds
+
+## Project Instructions
+
+For detailed project instructions and behavior guidelines, see [../CLAUDE.md](../CLAUDE.md). 

@@ -67,3 +67,162 @@ Please create a claude.md file in this project that reference @aiDocs/context.md
 
 ---
 
+## 2026-02-12
+
+I need to create detailed implementation plans for each phase of the Family Quality Time App project. Read the main roadmap at ai/roadmaps/2026-02-11-high-level_mvp-project-roadmap.md and create separate detailed sub-plans for each phase.
+
+Create the following files in ai/roadmaps/:
+
+1. **2026-02-11-phase1-mvp-chrome-extension.md** - Phase 1: MVP Demo (4-5 days)
+2. **2026-02-11-phase2-v1-core-web-app.md** - Phase 2: V1 Core (Weeks 1-4)
+3. **2026-02-11-phase3-v1-polish-automation.md** - Phase 3: V1 Polish (Weeks 5-8)
+4. **2026-02-11-phase4-v1-launch-beta.md** - Phase 4: V1 Launch (Weeks 9-12)
+5. **2026-02-11-phase5-v2-advanced-features.md** - Phase 5: V2 (Months 4-6)
+6. **2026-02-11-phase6-v3-ecosystem.md** - Phase 6: V3 (Months 7-12)
+
+For each phase plan:
+
+**Structure:**
+- Header with phase name, timeline, status
+- Overview (what this phase accomplishes)
+- Success Criteria (clear, measurable)
+- Prerequisites (what must be done before starting)
+- Detailed Implementation Steps (break down each sub-phase from main roadmap)
+- Technical Stack & Tools (list specific libraries/APIs with references to ai/guides/ docs)
+- File Structure (what files/directories will be created)
+- Testing Strategy (how to verify it works)
+- Risks & Mitigation
+- Deliverables (concrete outputs)
+- References (link to main roadmap, architecture docs, library guides)
+
+**Key Requirements:**
+- Be DETAILED - each task should have clear steps
+- Reference library docs from ai/guides/ (e.g., "See [Next.js docs](../guides/nextjs_context7.md) for setup")
+- Include code structure examples (file organization, not full code)
+- Add decision points and alternatives where applicable
+- Keep the "no over-engineering" philosophy from main roadmap
+- Each plan should be actionable on its own (a developer could execute it)
+
+**Important:**
+- Phase 1 is Chrome extension (client-side only, no backend)
+- Phases 2-4 are the "12 weeks to V1 launch" from PRD
+- Phase 5-6 are future enhancements
+- Use the library documentation we just created in ai/guides/
+
+Make each plan comprehensive but focused on what's needed for THAT phase only. Don't include features from future phases.
+
+---
+
+## 2026-02-12 (continued)
+
+Create roadmap tracking documents for each phase to pair with the existing detailed plan documents. These roadmaps should be shorter checklist/tracking docs that reference their corresponding plan.
+
+Create these files in ai/roadmaps/:
+
+1. **2026-02-11-roadmap-phase1-mvp.md** (pairs with 2026-02-11-phase1-mvp-chrome-extension.md)
+2. **2026-02-11-roadmap-phase2-v1-core.md** (pairs with 2026-02-11-phase2-v1-core-web-app.md)
+3. **2026-02-11-roadmap-phase3-v1-polish.md** (pairs with 2026-02-11-phase3-v1-polish-automation.md)
+4. **2026-02-11-roadmap-phase4-v1-launch.md** (pairs with 2026-02-11-phase4-v1-launch-beta.md)
+5. **2026-02-11-roadmap-phase5-v2.md** (pairs with 2026-02-11-phase5-v2-advanced-features.md)
+6. **2026-02-11-roadmap-phase6-v3.md** (pairs with 2026-02-11-phase6-v3-ecosystem.md)
+
+**Structure for each roadmap:**
+
+```markdown
+# Phase X Roadmap: [Name]
+
+**Status:** Not Started / In Progress / Complete
+**Timeline:** [timeline]
+**Detailed Plan:** [link to corresponding phase plan doc]
+
+---
+
+## ⚠️ Development Philosophy
+
+**Avoid over-engineering, cruft, and legacy-compatibility features in this clean code project.**
+
+- Build only what's needed for this phase
+- No "just in case" features
+- Delete unused code immediately
+- Keep it simple and focused
+
+---
+
+## Quick Overview
+
+[2-3 sentence summary of what this phase accomplishes]
+
+---
+
+## Task Checklist
+
+### [Sub-phase 1]
+- [ ] Task 1
+- [ ] Task 2
+- [ ] Task 3
+
+### [Sub-phase 2]
+- [ ] Task 1
+- [ ] Task 2
+
+[etc - extract high-level tasks from the detailed plan]
+
+---
+
+## Success Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
+
+---
+
+## Key Deliverables
+
+- [ ] Deliverable 1
+- [ ] Deliverable 2
+- [ ] Deliverable 3
+
+---
+
+## Notes & Decisions
+
+[Empty section for tracking decisions during implementation]
+
+---
+
+## Completion Checklist
+
+Before moving to ai/roadmaps/complete:
+- [ ] All tasks completed
+- [ ] Success criteria met
+- [ ] Deliverables created
+- [ ] Tests passing
+- [ ] Documentation updated
+- [ ] Changelog updated
+
+---
+
+**Created:** 2026-02-11
+**Last Updated:** 2026-02-11
+**Next Phase:** [Link to next phase roadmap]
+```
+
+**Requirements:**
+- Keep roadmaps concise (1-2 pages max)
+- Use checkboxes for all actionable items
+- Include clear reference to detailed plan doc
+- Include the over-engineering warning prominently
+- Make it easy to track progress at a glance
+- Include completion checklist
+
+**After creating all roadmaps:**
+Also update each detailed PLAN doc to add a reference back to its roadmap at the top.
+
+Add something like:
+```markdown
+**Roadmap:** [2026-02-11-roadmap-phaseX-xxx.md](./2026-02-11-roadmap-phaseX-xxx.md) - Track progress
+```
+
+---
+

@@ -8,15 +8,78 @@
 
 ## Overview
 
-This document defines the technical architecture for the Family Quality Time App across three phases:
+This document defines the technical architecture for the Family Quality Time App across six development phases:
 
-1. **MVP (Chrome Extension)** - Client-side demo for validation (4-5 days)
-2. **V1 (Full Product)** - Production web app with backend (12 weeks)
-3. **V2+ (Future)** - Advanced features including AI vision integration
+1. **Phase 1: MVP (Chrome Extension)** - Client-side demo for validation (4-5 days)
+2. **Phase 2-4: V1 (Full Product)** - Production web app with backend (12 weeks total)
+   - Phase 2: Core web app foundation (4 weeks)
+   - Phase 3: Polish & automation (4 weeks)
+   - Phase 4: Beta launch & validation (4 weeks)
+3. **Phase 5: V2 (Advanced Features)** - Enhanced features & growth (3 months)
+4. **Phase 6: V3 (Ecosystem)** - Platform expansion & moat building (6 months)
+
+**Roadmap Reference:** See [ai/roadmaps/](../ai/roadmaps/) for detailed implementation plans for each phase.
+
+---
+
+## Product Evolution Overview
+
+### Phase Progression
+
+| Phase | Name | Duration | Goal | Key Deliverables |
+|-------|------|----------|------|------------------|
+| **Phase 1** | MVP Demo | 4-5 days | Validate core value prop | Chrome extension, demo video |
+| **Phase 2** | V1 Core | 4 weeks | Build production foundation | Web app, auth, database, manual suggestions |
+| **Phase 3** | V1 Polish | 4 weeks | Automation & UX | Weekly cron jobs, email delivery, polished UI |
+| **Phase 4** | V1 Beta | 4 weeks | Validation & monetization | 100 users, pricing, metrics validation |
+| **Phase 5** | V2 Features | 3 months | Growth & retention | Multi-calendar, mobile app, ML recommendations |
+| **Phase 6** | V3 Ecosystem | 6 months | Moat building | AI integrations, bookings, B2B partnerships |
+
+### Technical Evolution
+
+**Data Flow Progression:**
+
+```
+Phase 1 (MVP):
+User → Extension → Google Calendar API → User
+(Client-side only, manual trigger)
+
+Phase 2-3 (V1 Core & Polish):
+Cron Job → Backend → Calendar API → Recommendation Engine → Email → User
+(Server-side automation, persistent storage)
+
+Phase 5 (V2):
+Multiple Calendars → ML Model → Mobile App + Web + Email → User
+(Multi-channel, intelligent recommendations)
+
+Phase 6 (V3):
+AI Assistants → API → Booking Partners → Stripe → User
+(Platform ecosystem, network effects)
+```
+
+### Architecture Complexity Growth
+
+| Capability | Phase 1 | Phases 2-4 | Phase 5 | Phase 6 |
+|------------|---------|------------|---------|---------|
+| **Frontend** | Vanilla JS popup | Next.js web app | + React Native mobile | + AI assistant UIs |
+| **Backend** | None | Node.js/Express | + ML service | + Partner APIs |
+| **Database** | Chrome storage | PostgreSQL | + Analytics DB | + Data warehouse |
+| **APIs** | Calendar only | + Places, Eventbrite | + Yelp, TripAdvisor | + Booking platforms |
+| **Automation** | Manual | Weekly cron | + Real-time triggers | + Event-driven |
+| **Users** | 5 testers | 100 beta | 500 active | 1,000+ |
+
+**Decision Points:**
+- **After Phase 1:** Proceed to V1 only if demo gets "wow" reactions from 5+ people
+- **After Phase 4:** Proceed to V2 only if >40% acceptance rate, >30% WTP, positive feedback
+- **After Phase 5:** Proceed to V3 only if >60% retention, 15%+ conversion, profitable unit economics
 
 ---
 
 ## MVP Architecture: Chrome Extension
+
+**Implementation Plan:** [Phase 1 Detailed Plan](../ai/roadmaps/2026-02-11-phase1-mvp-chrome-extension.md) | [Phase 1 Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase1-mvp.md)
+
+**Timeline:** 4-5 days | **Type:** Proof-of-concept demo
 
 ### Design Principles
 
@@ -178,51 +241,20 @@ Use token for all API calls (Authorization: Bearer <token>)
 
 ### Curated Activities Database (MVP)
 
-Instead of external APIs, use a hard-coded JSON structure:
+**Approach:** Hard-coded JSON array of 10-15 curated family activities
 
-```javascript
-const curatedActivities = [
-  {
-    id: "act_001",
-    title: "Children's Discovery Museum",
-    type: "museum",
-    description: "Interactive science exhibits for ages 2-10",
-    address: "123 Main St, Chicago, IL",
-    imageUrl: "https://example.com/museum.jpg",
-    estimatedCost: "$35",
-    duration: "2-3 hours",
-    ageRange: [2, 10],
-    tags: ["science", "museum", "indoor", "educational"],
-    bookingLink: "https://discoverymuseum.org"
-  },
-  // 10-15 more activities...
-];
-```
+**Activity Schema:**
+- ID, title, type (museum/park/restaurant/event)
+- Description, address, image URL, booking link
+- Estimated cost, duration, age range
+- Tags for matching (e.g., "science", "outdoor", "food")
 
-**Matching Algorithm (Simple):**
-```javascript
-function matchActivities(wantToTryList, curatedActivities) {
-  // 1. Tokenize want-to-try items
-  const keywords = wantToTryList
-    .map(item => item.toLowerCase().split(' '))
-    .flat();
+**Matching Algorithm:**
+- Simple keyword matching between user's "want to try" list and activity tags
+- Score-based ranking
+- Return top 2 matches
 
-  // 2. Score each activity
-  const scored = curatedActivities.map(activity => {
-    let score = 0;
-    activity.tags.forEach(tag => {
-      if (keywords.includes(tag)) score += 1;
-    });
-    return { activity, score };
-  });
-
-  // 3. Sort by score, return top 2
-  return scored
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 2)
-    .map(item => item.activity);
-}
-```
+**Reference:** See [Phase 1 detailed plan](../ai/roadmaps/2026-02-11-phase1-mvp-chrome-extension.md) for implementation code
 
 ### Limitations (MVP)
 
@@ -236,6 +268,13 @@ function matchActivities(wantToTryList, curatedActivities) {
 ---
 
 ## V1 Architecture: Full Product
+
+**Implementation Plans:**
+- [Phase 2: Core Web App](../ai/roadmaps/2026-02-11-phase2-v1-core-web-app.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase2-v1-core.md)
+- [Phase 3: Polish & Automation](../ai/roadmaps/2026-02-11-phase3-v1-polish-automation.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase3-v1-polish.md)
+- [Phase 4: Beta Launch](../ai/roadmaps/2026-02-11-phase4-v1-launch-beta.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase4-v1-launch.md)
+
+**Timeline:** 12 weeks (Phases 2-4 combined) | **Type:** Production MVP
 
 ### Design Principles
 
@@ -461,218 +500,73 @@ GET    /api/admin/metrics        System metrics (acceptance rate, etc.)
 
 ### Recommendation Engine Algorithm (V1)
 
-**Step 1: Detect Free Time**
-```typescript
-async function detectFreeTime(userId: string): Promise<FreeBlock[]> {
-  // 1. Fetch calendar events for next 7 days
-  const events = await googleCalendar.getEvents({
-    userId,
-    timeMin: new Date(),
-    timeMax: addDays(new Date(), 7)
-  });
+**High-Level Flow:**
 
-  // 2. Filter to Saturdays and Sundays
-  const weekendDays = getWeekendDates(7);
+1. **Detect Free Time**
+   - Fetch calendar events for next 7 days
+   - Filter to weekend business hours (Sat/Sun 9am-6pm)
+   - Find contiguous 2-4 hour blocks with no events
+   - Store in database
 
-  // 3. For each weekend day, find free blocks
-  const freeBlocks = weekendDays.flatMap(day => {
-    return findFreeBlocksInDay({
-      day,
-      events,
-      businessHours: { start: '09:00', end: '18:00' },
-      minBlockSize: 2, // hours
-      maxBlockSize: 4
-    });
-  });
+2. **Query Activity Sources**
+   - Google Places API (parks, museums, zoos, aquariums)
+   - Eventbrite API (local events)
+   - Curated database (manually seeded activities)
+   - Filter by: location, date, budget, rating
 
-  // 4. Store in database
-  await db.calendarScans.create({
-    userId,
-    scannedAt: new Date(),
-    freeBlocks
-  });
+3. **Match & Score**
+   - Interest match (30 points)
+   - "Want to Try" match (25 points)
+   - Age appropriateness (20 points)
+   - Budget fit (15 points)
+   - Drive time (10 points)
+   - Penalties: Recently suggested (-20), Similar type last week (-10)
+   - Minimum threshold: 30 points
 
-  return freeBlocks;
-}
-```
+4. **Generate Suggestions**
+   - Select top 2 free blocks
+   - Score all activities for each block
+   - Choose best match per block
+   - Store in database
 
-**Step 2: Query Activity Sources**
-```typescript
-async function queryActivities(
-  location: string,
-  targetDate: Date,
-  profile: FamilyProfile
-): Promise<Activity[]> {
-  // A. Google Places API
-  const places = await googlePlaces.search({
-    query: 'family activities',
-    location: location,
-    radius: profile.maxDriveTimeMinutes * 1000, // approx meters
-    type: ['park', 'museum', 'zoo', 'aquarium'],
-    openOn: targetDate,
-    minRating: 4.0
-  });
+5. **Deliver via Email**
+   - Send via Resend API
+   - Schedule for Friday 8am
+   - Include title, description, address, cost, booking link
+   - Use React Email templates
 
-  // B. Eventbrite API
-  const events = await eventbrite.search({
-    location: location,
-    startDate: targetDate,
-    categories: ['Family & Education', 'Arts', 'Food & Drink'],
-    priceMax: getBudgetMax(profile.budgetTier)
-  });
-
-  // C. Curated database (manually seeded)
-  const curated = await db.curatedActivities.findMany({
-    where: {
-      city: location,
-      ageRange: { contains: profile.kidAges }
-    }
-  });
-
-  return [...places, ...events, ...curated];
-}
-```
-
-**Step 3: Match & Score**
-```typescript
-function scoreActivity(
-  activity: Activity,
-  profile: FamilyProfile,
-  recentSuggestions: Suggestion[]
-): number {
-  let score = 0;
-
-  // Interest match (30 points)
-  const interestMatch = activity.tags.some(tag =>
-    profile.interests.includes(tag)
-  );
-  if (interestMatch) score += 30;
-
-  // Want to Try match (25 points)
-  const wantToTryMatch = profile.wantToTryList.some(item =>
-    activity.title.toLowerCase().includes(item.toLowerCase())
-  );
-  if (wantToTryMatch) score += 25;
-
-  // Age appropriateness (20 points)
-  const ageMatch = profile.kidAges.every(age =>
-    age >= activity.ageRange[0] && age <= activity.ageRange[1]
-  );
-  if (ageMatch) score += 20;
-
-  // Budget fit (15 points)
-  if (activity.cost <= getBudgetMax(profile.budgetTier)) {
-    score += 15;
-  }
-
-  // Drive time (10 points)
-  if (activity.driveTimeMinutes <= profile.maxDriveTimeMinutes) {
-    score += 10;
-  }
-
-  // Penalties
-  // - Suggested in last 4 weeks
-  const recentlyRecommended = recentSuggestions.some(s =>
-    s.title === activity.title &&
-    differenceInWeeks(new Date(), s.generatedAt) < 4
-  );
-  if (recentlyRecommended) score -= 20;
-
-  // - Similar type suggested last week
-  const similarTypeLastWeek = recentSuggestions.some(s =>
-    s.activityType === activity.type &&
-    differenceInWeeks(new Date(), s.generatedAt) < 1
-  );
-  if (similarTypeLastWeek) score -= 10;
-
-  return score;
-}
-```
-
-**Step 4: Generate Suggestions**
-```typescript
-async function generateSuggestions(userId: string): Promise<Suggestion[]> {
-  // 1. Get user profile
-  const profile = await db.familyProfiles.findUnique({ where: { userId } });
-
-  // 2. Detect free time
-  const freeBlocks = await detectFreeTime(userId);
-
-  if (freeBlocks.length === 0) {
-    return []; // No free time, no suggestions
-  }
-
-  // 3. For each free block, query activities
-  const suggestions: Suggestion[] = [];
-
-  for (const block of freeBlocks.slice(0, 2)) { // Top 2 free blocks
-    const activities = await queryActivities(
-      profile.location,
-      block.date,
-      profile
-    );
-
-    // 4. Score activities
-    const recentSuggestions = await db.suggestions.findMany({
-      where: {
-        userId,
-        generatedAt: { gte: subWeeks(new Date(), 4) }
-      }
-    });
-
-    const scored = activities.map(activity => ({
-      activity,
-      score: scoreActivity(activity, profile, recentSuggestions)
-    }));
-
-    // 5. Select top match for this block
-    const topMatch = scored.sort((a, b) => b.score - a.score)[0];
-
-    if (topMatch && topMatch.score > 30) { // Minimum threshold
-      suggestions.push({
-        userId,
-        targetDate: block.date,
-        targetTimeSlot: `${block.startTime} - ${block.endTime}`,
-        activityType: topMatch.activity.type,
-        title: topMatch.activity.title,
-        description: topMatch.activity.description,
-        address: topMatch.activity.address,
-        bookingLink: topMatch.activity.bookingLink,
-        estimatedCost: topMatch.activity.cost,
-        imageUrl: topMatch.activity.imageUrl,
-        status: 'sent'
-      });
-    }
-  }
-
-  // 6. Store suggestions
-  await db.suggestions.createMany({ data: suggestions });
-
-  return suggestions;
-}
-```
-
-**Step 5: Deliver via Email**
-```typescript
-async function sendSuggestionEmail(
-  userId: string,
-  suggestions: Suggestion[]
-): Promise<void> {
-  const user = await db.users.findUnique({ where: { id: userId } });
-
-  await resend.emails.send({
-    from: 'FamilyTime <suggestions@familytime.com>',
-    to: user.email,
-    subject: "This weekend's family time ideas",
-    react: SuggestionEmailTemplate({ suggestions }),
-    scheduledAt: nextFriday8AM() // Friday 8am
-  });
-}
-```
+**Reference:** See [Phase 2 detailed plan](../ai/roadmaps/2026-02-11-phase2-v1-core-web-app.md) for full implementation
 
 ---
 
 ## V2+ Architecture: Future Enhancements
+
+**Implementation Plans:**
+- [Phase 5: V2 Advanced Features](../ai/roadmaps/2026-02-11-phase5-v2-advanced-features.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase5-v2.md)
+- [Phase 6: V3 Ecosystem](../ai/roadmaps/2026-02-11-phase6-v3-ecosystem.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase6-v3.md)
+
+**Timeline:** Phase 5 (3 months), Phase 6 (6 months) | **Type:** Growth & scale
+
+### Phase 5 Features (V2)
+
+**Priority Features:**
+1. Multi-calendar support (both partners' calendars)
+2. Auto-insert to Google Calendar (write permissions)
+3. Mobile app (React Native)
+4. ML-based recommendations (replace rule-based)
+5. Expanded activity sources (Yelp, TripAdvisor, etc.)
+
+### Phase 6 Features (V3)
+
+**Ecosystem Expansion:**
+1. AI assistant integrations (ChatGPT, Google Assistant, Alexa)
+2. In-app booking/reservations (Stripe payment processing)
+3. Multi-family coordination
+4. B2B partnerships (corporate wellness)
+5. Apple Calendar support
+6. Social features (share experiences)
+
+---
 
 ### Vision API Integration (Calendar Image Analysis)
 
@@ -688,175 +582,137 @@ User uploads calendar screenshot
   → Generate suggestions
 ```
 
-**Implementation:**
+**Implementation Overview:**
 
-**1. Image Processing with Sharp**
-```typescript
-import sharp from 'sharp';
+1. **Image Processing** (Sharp library)
+   - Add text overlays to calendar screenshots
+   - Annotate with date markers
+   - Convert to optimized format for Vision API
 
-async function annotateCalendarImage(
-  imageBuffer: Buffer,
-  annotations: string[]
-): Promise<Buffer> {
-  // Load base image
-  const image = sharp(imageBuffer);
+2. **Vision API Analysis** (OpenAI)
+   - Send annotated image to GPT-4 Vision
+   - Prompt: Identify 2+ hour free blocks on weekends
+   - Parse JSON response with date/time slots
 
-  // Create text overlays
-  const overlays = annotations.map((text, index) => ({
-    input: {
-      text: {
-        text: text,
-        font: 'Arial',
-        width: 300,
-        rgba: true,
-        align: 'center'
-      }
-    },
-    gravity: 'north',
-    top: 50 + (index * 40) // Stack annotations vertically
-  }));
+3. **Suggestion Generation**
+   - Use detected free time blocks
+   - Generate recommendations via standard engine
+   - Return suggestions without requiring OAuth
 
-  // Composite text onto image
-  const annotatedImage = await image
-    .composite(overlays)
-    .jpeg()
-    .toBuffer();
-
-  return annotatedImage;
-}
-```
-
-**2. Vision API Analysis with OpenAI**
-```typescript
-import OpenAI from 'openai';
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-async function analyzeCalendarImage(
-  imageBuffer: Buffer
-): Promise<FreeBlock[]> {
-  // Convert to base64
-  const base64Image = `data:image/jpeg;base64,${imageBuffer.toString('base64')}`;
-
-  // Call Vision API
-  const response = await client.chat.completions.create({
-    model: 'gpt-5.2',
-    messages: [
-      {
-        role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: `Analyze this calendar screenshot.
-                   Identify all free time blocks (2+ hours) on weekends.
-                   Return as JSON: [{ date: "YYYY-MM-DD", startTime: "HH:MM", endTime: "HH:MM" }]`
-          },
-          {
-            type: 'image_url',
-            image_url: { url: base64Image }
-          }
-        ]
-      }
-    ]
-  });
-
-  // Parse response
-  const freeBlocks = JSON.parse(response.choices[0].message.content);
-  return freeBlocks;
-}
-```
-
-**3. Combined Workflow**
-```typescript
-async function processCalendarScreenshot(
-  imageBuffer: Buffer
-): Promise<Suggestion[]> {
-  // 1. Annotate image with helpful markers
-  const annotatedImage = await annotateCalendarImage(imageBuffer, [
-    'Looking for 2+ hour free blocks',
-    'Focus: Saturdays & Sundays'
-  ]);
-
-  // 2. Analyze with Vision API
-  const freeBlocks = await analyzeCalendarImage(annotatedImage);
-
-  // 3. Generate suggestions for detected free time
-  const suggestions = await generateSuggestionsForBlocks(freeBlocks);
-
-  return suggestions;
-}
-```
-
-**Tech Stack for Vision Feature:**
-- **sharp** (`/lovell/sharp`) - Text overlays, image compositing
-- **openai-node** (`/openai/openai-node`) - Vision API, chat completions
-- **Docs:** See [ai/guides/sharp-text-overlay-docs.md](../ai/guides/sharp-text-overlay-docs.md) and [ai/guides/openai-sdk-docs.md](../ai/guides/openai-sdk-docs.md)
+**Tech Stack:**
+- Sharp for image processing
+- OpenAI Node.js SDK for Vision API
+- See: [Sharp Guide](../ai/guides/sharp-text-overlay-docs.md) | [OpenAI Guide](../ai/guides/openai-sdk-docs.md)
 
 ### Other V2+ Features
 
-**Multi-Calendar Coordination**
-```typescript
-// Merge events from multiple calendars (both partners)
-async function mergeFamilyCalendars(
-  calendar1Id: string,
-  calendar2Id: string
-): Promise<CalendarEvent[]> {
-  const [events1, events2] = await Promise.all([
-    googleCalendar.getEvents({ calendarId: calendar1Id }),
-    googleCalendar.getEvents({ calendarId: calendar2Id })
-  ]);
+**Multi-Calendar Coordination (Phase 5)**
+- Merge events from both partners' calendars
+- Find mutual free time
+- Support up to 2 calendars per account
+- Deduplicate shared events
 
-  // Combine and deduplicate
-  return [...events1, ...events2].sort((a, b) =>
-    a.start.dateTime.localeCompare(b.start.dateTime)
-  );
-}
+**ML-Based Recommendations (Phase 5)**
+- Replace rule-based scoring with machine learning
+- Train on user feedback data (acceptances/rejections)
+- Features: kid ages, interests, time preferences, historical patterns
+- Improve accuracy over time
+
+**ChatGPT Action Integration (Phase 6)**
+- Expose API as OpenAI plugin/action
+- Users ask ChatGPT for family activity suggestions
+- ChatGPT calls FamilyTime API with user context
+- Returns formatted suggestions in conversation
+
+**Reference:** See Phase 5-6 detailed plans for implementation
+
+---
+
+## Payment & Monetization Architecture
+
+**Timeline:** Phase 4 (freemium model), Phase 6 (transaction fees)
+
+### Subscription Billing (Phase 4)
+
+**Tech Stack:**
+- **Payment processor:** Stripe
+- **Integration:** Stripe Checkout + Customer Portal
+- **Webhook handling:** Next.js API routes
+
+**Pricing Tiers:**
+
+| Feature | Free | Premium ($9.99/mo) |
+|---------|------|-------------------|
+| Suggestions/week | 1 | 3 |
+| Calendars | 1 | 2 |
+| Interests | 3 categories | Unlimited |
+| Email delivery | ✅ | ✅ |
+| SMS delivery | ❌ | ✅ |
+| Mobile app | ❌ | ✅ |
+| ML recommendations | ❌ | ✅ |
+
+**Database Schema Addition:**
+
+```sql
+CREATE TABLE subscriptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+
+  stripe_customer_id VARCHAR(255) UNIQUE NOT NULL,
+  stripe_subscription_id VARCHAR(255) UNIQUE,
+  stripe_price_id VARCHAR(255),
+
+  status VARCHAR(50) CHECK (status IN ('active', 'canceled', 'past_due', 'trialing')),
+  tier VARCHAR(20) CHECK (tier IN ('free', 'premium')),
+
+  current_period_start TIMESTAMP,
+  current_period_end TIMESTAMP,
+  cancel_at_period_end BOOLEAN DEFAULT FALSE,
+
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+
+  UNIQUE(user_id)
+);
+
+CREATE INDEX idx_subscriptions_user ON subscriptions(user_id);
+CREATE INDEX idx_subscriptions_stripe_customer ON subscriptions(stripe_customer_id);
 ```
 
-**ML-Based Recommendations (Replace Rule-Based)**
-```typescript
-// Use ML model trained on user feedback
-async function mlRecommendation(
-  profile: FamilyProfile,
-  freeBlock: FreeBlock,
-  feedback: Feedback[]
-): Promise<Activity[]> {
-  // Feature engineering
-  const features = {
-    kidAges: profile.kidAges,
-    interests: encodeInterests(profile.interests),
-    dayOfWeek: freeBlock.date.getDay(),
-    timeOfDay: freeBlock.startTime,
-    previousAcceptances: feedback.filter(f => f.accepted).map(f => f.activityType)
-  };
+**Stripe Webhook Handling:**
 
-  // Call ML model endpoint
-  const predictions = await mlService.predict(features);
+**Events to handle:**
+- `customer.subscription.created` - New subscription started
+- `customer.subscription.updated` - Subscription modified
+- `customer.subscription.deleted` - Subscription canceled
 
-  return predictions;
-}
+**Actions:**
+- Verify webhook signature
+- Update subscription status in database
+- Sync billing period dates
+- Handle downgrades to free tier
+
+**Implementation:** Next.js API route at `/api/webhooks/stripe`
+
+### Transaction Fees (Phase 6)
+
+**Use Case:** Commission on bookings made through the app
+
+**Implementation:**
+- Stripe Connect for marketplace payments
+- Partner venues onboarded as Stripe Connected Accounts
+- App takes 10-15% commission on bookings
+- Automatic payouts to partners
+
+**Example Flow:**
+```
+User books museum tickets ($40)
+  → Stripe charges user $40
+  → App receives $6 (15% commission)
+  → Museum receives $34 (85% payout)
 ```
 
-**ChatGPT Action Integration**
-```typescript
-// Expose as OpenAI plugin/action
-export const chatGPTAction = {
-  name: 'family_time_suggestions',
-  description: 'Get personalized family activity suggestions',
-  parameters: {
-    type: 'object',
-    properties: {
-      userId: { type: 'string' },
-      date: { type: 'string', format: 'date' }
-    }
-  },
-  async execute({ userId, date }) {
-    return await generateSuggestions(userId);
-  }
-};
-```
+**Reference:** See [Stripe Guide](../ai/guides/stripe_context7.md) for detailed implementation
 
 ---
 
@@ -870,32 +726,10 @@ export const chatGPTAction = {
 - Family profile (kid ages, interests)
 
 **Encryption:**
-```typescript
-import crypto from 'crypto';
-
-const algorithm = 'aes-256-gcm';
-const key = process.env.ENCRYPTION_KEY; // 32 bytes
-
-function encrypt(text: string): string {
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(algorithm, key, iv);
-
-  let encrypted = cipher.update(text, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-
-  const authTag = cipher.getAuthTag();
-
-  return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted}`;
-}
-
-// Store Google refresh tokens encrypted
-await db.users.update({
-  where: { id: userId },
-  data: {
-    googleRefreshToken: encrypt(refreshToken)
-  }
-});
-```
+- Algorithm: AES-256-GCM
+- Encrypt at rest: Google refresh tokens, sensitive user data
+- Key management: Environment variables (32-byte key)
+- Format: `IV:AuthTag:EncryptedData` (hex encoded)
 
 **OAuth Scope Minimization:**
 - MVP: Request only `calendar.readonly` + `calendar.events`
@@ -914,24 +748,10 @@ await db.users.update({
 ### Optimization Strategies
 
 **Caching:**
-```typescript
-// Cache Google Calendar events (5 min TTL)
-import NodeCache from 'node-cache';
-
-const cache = new NodeCache({ stdTTL: 300 });
-
-async function getCachedEvents(userId: string) {
-  const cacheKey = `events:${userId}`;
-
-  let events = cache.get(cacheKey);
-  if (!events) {
-    events = await googleCalendar.getEvents({ userId });
-    cache.set(cacheKey, events);
-  }
-
-  return events;
-}
-```
+- Google Calendar events: 5-minute TTL (NodeCache)
+- Activity search results: 15-minute TTL
+- User profiles: 10-minute TTL
+- Pattern: Check cache → Fetch if miss → Store → Return
 
 **Database Indexing:**
 ```sql
@@ -942,16 +762,9 @@ CREATE INDEX idx_calendar_scans_user ON calendar_scans(user_id);
 ```
 
 **Rate Limiting:**
-```typescript
-import rateLimit from 'express-rate-limit';
-
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // Limit each IP to 100 requests per windowMs
-});
-
-app.use('/api/', apiLimiter);
-```
+- 100 requests per 15 minutes per IP
+- Applied to all `/api/*` routes
+- Library: express-rate-limit
 
 **Horizontal Scaling:**
 - Stateless API servers (can add more dynos)
@@ -977,29 +790,11 @@ app.use('/api/', apiLimiter);
 - Database query performance
 
 **Logging:**
-```typescript
-import winston from 'winston';
-
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' })
-  ]
-});
-
-// Log all API requests
-app.use((req, res, next) => {
-  logger.info({
-    method: req.method,
-    path: req.path,
-    userId: req.user?.id,
-    timestamp: new Date()
-  });
-  next();
-});
-```
+- Library: Winston
+- Format: JSON structured logs
+- Levels: error, warn, info, debug
+- Outputs: error.log (errors only), combined.log (all)
+- Middleware: Log all API requests (method, path, userId, timestamp)
 
 ---
 
@@ -1024,35 +819,11 @@ app.use((req, res, next) => {
 
 ### CI/CD Pipeline
 
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm run build
-      - uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID }}
-          vercel-project-id: ${{ secrets.PROJECT_ID }}
-
-  deploy-backend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: railway up
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-```
+**GitHub Actions workflow:**
+- Trigger: Push to main branch
+- Frontend: Build Next.js → Deploy to Vercel
+- Backend: Deploy to Railway
+- Secrets: VERCEL_TOKEN, RAILWAY_TOKEN (stored in GitHub)
 
 ---
 
@@ -1093,10 +864,51 @@ jobs:
 
 ## References
 
-- [PRD](prd.md) - Product requirements
+### Strategic Documents
+- [PRD](prd.md) - Product requirements and strategy
 - [MVP Spec](mvp.md) - Chrome extension demo
-- [Sharp Docs](../ai/guides/sharp-text-overlay-docs.md) - Image processing
-- [OpenAI SDK Docs](../ai/guides/openai-sdk-docs.md) - Vision API
+- [Context](context.md) - Current project overview and focus
+- [Market Research](../ai/guides/quality-time-app-market-research.md) - Competitive analysis and user insights
+
+### Implementation Roadmaps
+
+**High-Level:**
+- [Overall Project Roadmap](../ai/roadmaps/2026-02-11-high-level_mvp-project-roadmap.md) - All 6 phases overview
+
+**Phase 1 (MVP - 4-5 days):**
+- [Phase 1 Detailed Plan](../ai/roadmaps/2026-02-11-phase1-mvp-chrome-extension.md)
+- [Phase 1 Roadmap Tracker](../ai/roadmaps/2026-02-11-roadmap-phase1-mvp.md)
+
+**Phases 2-4 (V1 - 12 weeks):**
+- [Phase 2 Detailed Plan](../ai/roadmaps/2026-02-11-phase2-v1-core-web-app.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase2-v1-core.md)
+- [Phase 3 Detailed Plan](../ai/roadmaps/2026-02-11-phase3-v1-polish-automation.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase3-v1-polish.md)
+- [Phase 4 Detailed Plan](../ai/roadmaps/2026-02-11-phase4-v1-launch-beta.md) | [Roadmap](../ai/roadmaps/2026-02-11-roadmap-phase4-v1-launch.md)
+
+**Phase 5 (V2 - 3 months):**
+- [Phase 5 Detailed Plan](../ai/roadmaps/2026-02-11-phase5-v2-advanced-features.md)
+- [Phase 5 Roadmap Tracker](../ai/roadmaps/2026-02-11-roadmap-phase5-v2.md)
+
+**Phase 6 (V3 - 6 months):**
+- [Phase 6 Detailed Plan](../ai/roadmaps/2026-02-11-phase6-v3-ecosystem.md)
+- [Phase 6 Roadmap Tracker](../ai/roadmaps/2026-02-11-roadmap-phase6-v3.md)
+
+### Technical Guides
+
+**Core Libraries:**
+- [Google Calendar API](../ai/guides/google-calendar-api_context7.md) - Calendar integration
+- [Clerk](../ai/guides/clerk_context7.md) - Authentication
+- [Prisma](../ai/guides/prisma_context7.md) - Database ORM
+- [Next.js](../ai/guides/nextjs_context7.md) - Frontend framework
+- [Resend](../ai/guides/resend_context7.md) - Email delivery
+- [React Email](../ai/guides/react-email_context7.md) - Email templates
+- [BullMQ](../ai/guides/bullmq_context7.md) - Job scheduling
+- [Stripe](../ai/guides/stripe_context7.md) - Payment processing (Phase 6)
+
+**Advanced Features:**
+- [Sharp](../ai/guides/sharp-text-overlay-docs.md) - Image processing for Vision API
+- [OpenAI SDK](../ai/guides/openai-sdk-docs.md) - Vision API and AI features
+
+### External APIs
 - [Google Calendar API](https://developers.google.com/calendar/api)
 - [Google Places API](https://developers.google.com/maps/documentation/places/web-service)
 - [Eventbrite API](https://www.eventbrite.com/platform/api)

@@ -615,6 +615,9 @@ The MVP exists to validate **three critical assumptions:**
 - **B2B2C:** Corporate family wellness benefits (sell to employers at $5/employee/month)
 - **Affiliate commissions:** Restaurants/venues pay for featured placement
 - **API access:** Sell recommendation engine to Cozi, TimeTree, etc.
+- **Transaction fees:** Commission on in-app bookings/reservations (V3+)
+
+**Payment Processing:** Stripe will handle subscription billing and payment processing for Premium tier and future transaction-based revenue.
 
 ---
 
@@ -651,7 +654,7 @@ The MVP exists to validate **three critical assumptions:**
 - Babysitter coordination
 - Apple Calendar support
 - Multi-family events (coordinate with other families)
-- In-app booking/reservations
+- In-app booking/reservations (integrated payment processing via Stripe)
 - Social features (share experiences)
 
 ---

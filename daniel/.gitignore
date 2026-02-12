@@ -1,0 +1,54 @@
+# AI Working Directory (local only)
+ai/
+
+# Claude Configuration
+CLAUDE.md
+
+# Cursor Configuration
+.cursorrules
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.testEnvVars
+
+# Build Output
+dist/
+build/
+out/
+.next/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Chrome Extension (when we build it)
+*.pem
+*.crx
+*.zip
+
+# Temp Files
+*.tmp
+*.temp
+.cache/

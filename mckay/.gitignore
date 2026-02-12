@@ -1,0 +1,61 @@
+# ====================
+# Local AI Working Space
+# ====================
+#ai/
+
+# ====================
+# AI Configuration (personalized)
+# ====================
+CLAUDE.md
+.cursorrules
+
+# ====================
+# Environment & Secrets
+# ====================
+.env
+.env.local
+.env.*.local
+.testEnvVars
+
+# Google OAuth Credentials
+google-credentials.json
+credentials.json
+client_secret*.json
+token.json
+
+# ====================
+# Dependencies
+# ====================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# ====================
+# Data Files (sensitive user data)
+# ====================
+data/users.json
+data/preferences.json
+data/suggestions.json
+
+# ====================
+# Build & Logs
+# ====================
+dist/
+build/
+*.log
+
+# ====================
+# OS & IDE
+# ====================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

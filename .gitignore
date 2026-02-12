@@ -1,0 +1,156 @@
+# ====================
+# Environment & Secrets
+# ====================
+.env
+.env.local
+.env.*.local
+.testEnvVars
+
+# Google OAuth Credentials (NEVER commit these!)
+google-credentials.json
+credentials.json
+client_secret*.json
+token.json
+
+# ====================
+# Data Files (contain sensitive user data)
+# ====================
+# User OAuth tokens and preferences
+data/users.json
+data/preferences.json
+data/suggestions.json
+
+# Keep the directory but not the data
+!data/.gitkeep
+
+# ====================
+# Dependencies
+# ====================
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ====================
+# Build Output
+# ====================
+dist/
+build/
+out/
+.next/
+*.egg-info/
+.eggs/
+
+# ====================
+# Logs
+# ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ====================
+# OS Files
+# ====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ====================
+# IDE / Editors
+# ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ====================
+# AI Working Directories
+# ====================
+# Individual team member AI dirs (local only)
+#*/ai/
+
+# Claude Configuration (if personalized)
+# Uncomment if you want to keep team CLAUDE.md but ignore personal ones
+# CLAUDE.md
+
+# Cursor Configuration
+.cursorrules
+
+# ====================
+# Testing
+# ====================
+.coverage
+.pytest_cache/
+.tox/
+htmlcov/
+coverage/
+*.cover
+
+# ====================
+# Temp Files
+# ====================
+*.tmp
+*.temp
+*.bak
+*.swp
+.cache/
+tmp/
+
+# ====================
+# Calendar Integration MVP Specific
+# ====================
+# Mock data for testing (if you want to keep this private)
+# Uncomment if your activities.json contains sensitive/proprietary data
+# data/activities.json
+
+# OAuth state files
+oauth-state.json
+
+# User uploads (if you add file upload features later)
+uploads/
+
+# ====================
+# Chrome Extension (if building browser extension later)
+# ====================
+*.pem
+*.crx
+extension/*.zip
+
+# ====================
+# Documentation Builds
+# ====================
+docs/_build/
+site/
+
+# ====================
+# Misc
+# ====================
+.git-blame-ignore-revs

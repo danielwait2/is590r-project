@@ -94,12 +94,14 @@ Desktop.ini
 # ====================
 # AI Working Directories
 # ====================
+# Root-level AI working directory (local workspace - NOT tracked)
+# ai/
+
 # Individual team member AI dirs (local only)
 #*/ai/
 
-# Claude Configuration (if personalized)
-# Uncomment if you want to keep team CLAUDE.md but ignore personal ones
-# CLAUDE.md
+# Claude Configuration (personalized - NOT tracked)
+CLAUDE.md
 
 # Cursor Configuration
 .cursorrules
